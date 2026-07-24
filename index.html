@@ -70,6 +70,8 @@ footer{max-width:1180px;margin:10px auto 30px;padding:16px;font-size:.75rem;colo
  padding:12px 20px;border-radius:11px;font-size:.85rem;font-weight:500;max-width:90vw;z-index:99;
  transition:bottom .35s;box-shadow:0 6px 22px #0003}
 #toast.show{bottom:22px}
+.card.closed{opacity:.62}
+.card.closed h3{text-decoration:line-through;text-decoration-color:#b9c4be}
 </style>
 </head>
 <body>
@@ -137,6 +139,7 @@ footer{max-width:1180px;margin:10px auto 30px;padding:16px;font-size:.75rem;colo
     <div class="toolbar">
       <div class="search"><input type="text" id="q" placeholder="Search post, department…" oninput="render()" data-tp="search"></div>
       <div class="toggle" onclick="toggleEligOnly()"><input type="checkbox" id="eligonly"> <span data-t="onlyelig">Only eligible</span></div>
+      <div class="toggle" onclick="event.stopPropagation();document.getElementById('showclosed').checked=!document.getElementById('showclosed').checked;render()"><input type="checkbox" id="showclosed"> <span data-t="showclosed">Show closed</span></div>
       <div class="count"><span id="count">0</span> <span data-t="jobs">jobs</span></div>
     </div>
     <div id="list"></div>
@@ -151,8 +154,8 @@ footer{max-width:1180px;margin:10px auto 30px;padding:16px;font-size:.75rem;colo
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const T={
- en:{brand:"Assam Job Setu",tag:"Tell us your profile once — see only the government jobs you actually qualify for.",refreshed:"Last refreshed",amieligible:"Am I Eligible?",age:"Your age",edu:"Highest education",cat:"Category",domi:"Assam domicile?",findjobs:"Find my jobs",clearp:"Clear",filters:"Filters",jobtype:"Job type",sector:"Sector",edulvl:"Education level",deadline:"Deadline",statusf:"Status",apply:"Apply filters",onlyelig:"Only eligible",jobs:"jobs",search:"Search post, department…",disc1:"⚠️ Assam Job Setu is an aggregator. Always verify every detail on the official notification PDF before applying. We never collect your application — we deep-link to the official government portal.",applybtn:"Apply on official portal",pdf:"Official PDF",elig:"You're eligible",notelig:"Not eligible",save:"Save"},
- as:{brand:"অসম জব সেতু",tag:"এবাৰ আপোনাৰ প্ৰʼফাইল দিয়ক — কেৱল আপুনি যোগ্য চৰকাৰী চাকৰিবোৰ চাওক।",refreshed:"শেষ আপডেট",amieligible:"মই যোগ্য নেকি?",age:"আপোনাৰ বয়স",edu:"সৰ্বোচ্চ শিক্ষা",cat:"শ্ৰেণী",domi:"অসমৰ স্থায়ী বাসিন্দা?",findjobs:"চাকৰি বিচাৰক",clearp:"পৰিষ্কাৰ",filters:"ফিল্টাৰ",jobtype:"চাকৰিৰ ধৰণ",sector:"খণ্ড",edulvl:"শিক্ষাৰ স্তৰ",deadline:"অন্তিম তাৰিখ",statusf:"অৱস্থা",apply:"ফিল্টাৰ প্ৰয়োগ",onlyelig:"কেৱল যোগ্য",jobs:"চাকৰি",search:"পদ, বিভাগ বিচাৰক…",disc1:"⚠️ অসম জব সেতু এটা সংগ্ৰাহক। আবেদনৰ আগতে চৰকাৰী বিজ্ঞপ্তি PDF চাই লওক।",applybtn:"চৰকাৰী পʼৰ্টেলত আবেদন",pdf:"চৰকাৰী PDF",elig:"আপুনি যোগ্য",notelig:"যোগ্য নহয়",save:"সাচি থওক",account:"একাউণ্ট"}
+ en:{brand:"Assam Job Setu",tag:"Tell us your profile once — see only the government jobs you actually qualify for.",refreshed:"Last refreshed",amieligible:"Am I Eligible?",age:"Your age",edu:"Highest education",cat:"Category",domi:"Assam domicile?",findjobs:"Find my jobs",clearp:"Clear",filters:"Filters",jobtype:"Job type",sector:"Sector",edulvl:"Education level",deadline:"Deadline",statusf:"Status",apply:"Apply filters",onlyelig:"Only eligible",jobs:"jobs",search:"Search post, department…",disc1:"⚠️ Assam Job Setu is an aggregator. Always verify every detail on the official notification PDF before applying. We never collect your application — we deep-link to the official government portal.",applybtn:"Apply on official portal",pdf:"Official PDF",elig:"You're eligible",notelig:"Not eligible",save:"Save",showclosed:"Show closed"},
+ as:{brand:"অসম জব সেতু",tag:"এবাৰ আপোনাৰ প্ৰʼফাইল দিয়ক — কেৱল আপুনি যোগ্য চৰকাৰী চাকৰিবোৰ চাওক।",refreshed:"শেষ আপডেট",amieligible:"মই যোগ্য নেকি?",age:"আপোনাৰ বয়স",edu:"সৰ্বোচ্চ শিক্ষা",cat:"শ্ৰেণী",domi:"অসমৰ স্থায়ী বাসিন্দা?",findjobs:"চাকৰি বিচাৰক",clearp:"পৰিষ্কাৰ",filters:"ফিল্টাৰ",jobtype:"চাকৰিৰ ধৰণ",sector:"খণ্ড",edulvl:"শিক্ষাৰ স্তৰ",deadline:"অন্তিম তাৰিখ",statusf:"অৱস্থা",apply:"ফিল্টাৰ প্ৰয়োগ",onlyelig:"কেৱল যোগ্য",jobs:"চাকৰি",search:"পদ, বিভাগ বিচাৰক…",disc1:"⚠️ অসম জব সেতু এটা সংগ্ৰাহক। আবেদনৰ আগতে চৰকাৰী বিজ্ঞপ্তি PDF চাই লওক।",applybtn:"চৰকাৰী পʼৰ্টেলত আবেদন",pdf:"চৰকাৰী PDF",elig:"আপুনি যোগ্য",notelig:"যোগ্য নহয়",save:"সাচি থওক",account:"একাউণ্ট",showclosed:"বন্ধ হোৱা দেখুৱাওক"}
 };
 let LANG='en', JOBS=[], PROFILE=null, saved=JSON.parse(localStorage.getItem('saved')||'[]');
 
@@ -165,6 +168,21 @@ function setLang(l){LANG=l;document.body.classList.toggle('as',l==='as');
 
 function daysLeft(d){return Math.ceil((new Date(d)-new Date())/(864e5));}
 function stKey(s){return s.replace(/ .*/,'').replace('Result','Result')}
+
+// ---- LIVE STATUS: computed from dates on every page load ----
+// This is why expired jobs disappear WITHOUT any cron job running.
+// Even if the aggregator breaks for a week, the site never shows a dead deadline as "Live".
+function liveStatus(j){
+  if(j.status==='Result Declared') return 'Result Declared';   // manual override wins
+  const today=new Date(); today.setHours(0,0,0,0);
+  const start=j.start_date?new Date(j.start_date):null;
+  const end=j.last_date?new Date(j.last_date):null;
+  if(end && today>end) return 'Closed';
+  if(start && today<start) return 'Upcoming';
+  const dl=daysLeft(j.last_date);
+  if(dl<=3) return 'Closing Soon';
+  return 'Live';
+}
 
 // ---- ELIGIBILITY ENGINE (the moat) ----
 function checkElig(j){
@@ -219,7 +237,11 @@ function passFilters(j){
  if(F('f_type')&&j.org_type!==F('f_type')) return false;
  if(F('f_sector')&&j.sector!==F('f_sector')) return false;
  if(F('f_edu')&&!j.education_level.includes(F('f_edu'))) return false;
- if(F('f_status')&&!j.status.startsWith(F('f_status').replace(' Soon',''))) return false;
+ const st=liveStatus(j);
+ // Expired jobs are hidden by default — user must opt in to see them.
+ const showClosed=document.getElementById('showclosed').checked;
+ if(!showClosed && st==='Closed' && !F('f_status')) return false;
+ if(F('f_status')&&st!==F('f_status')) return false;
  const dd=F('f_dead'); if(dd){const dl=daysLeft(j.last_date); if(dl<0||dl>+dd) return false;}
  return true;
 }
@@ -238,14 +260,15 @@ function render(){
   const title=LANG==='as'?j.title_as:j.title_en, org=LANG==='as'?j.org_as:j.org_en;
   const note=LANG==='as'?j.note_as:j.note_en;
   const dl=daysLeft(j.last_date);
-  const stCls='st-'+stKey(j.status);
+  const st=liveStatus(j);
+  const stCls='st-'+stKey(st);
   let eligHtml='';
   if(PROFILE){ eligHtml = e.ok
     ? `<div class="eligtag yes">✅ ${L.elig}</div>`
     : `<div class="eligtag no">✕ ${L.notelig}</div><div class="reasons">${e.reasons.join(' · ')}</div>`; }
-  return `<div class="card ${e.ok?'elig':''}">
+  return `<div class="card ${e.ok?'elig':''} ${st==='Closed'?'closed':''}">
    <div class="badges">
-     <span class="badge st ${stCls}">${j.status}</span>
+     <span class="badge st ${stCls}">${st}</span>
      <span class="badge">${j.org_type}</span>
      <span class="badge">${j.sector}</span>
      ${dl>=0&&dl<=3?`<span class="badge st st-Closing">⏰ ${dl}d left</span>`:''}
@@ -274,7 +297,14 @@ function save(id){saved.includes(id)?saved=saved.filter(x=>x!==id):saved.push(id
  render();}
 
 fetch('data/jobs.json').then(r=>r.json()).then(d=>{JOBS=d;
- document.getElementById('refts').textContent=new Date().toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'});
+ // show the REAL last-refresh time from the aggregator, not just page-load time
+ fetch('data/refresh_status.json').then(r=>r.json()).then(s=>{
+   const t=new Date(s.last_refresh);
+   document.getElementById('refts').textContent=
+     t.toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'})+
+     (s.open_jobs!=null?` · ${s.open_jobs} open`:'');
+ }).catch(()=>{document.getElementById('refts').textContent=
+     new Date().toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'});});
  render();}).catch(e=>{document.getElementById('list').innerHTML='<div class="empty">Could not load jobs.json — run via a local server (see README).</div>';});
 </script>
 <script src="auth.js"></script>

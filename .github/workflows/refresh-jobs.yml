@@ -1,0 +1,59 @@
+name: Refresh Jobs
+
+# ---------------------------------------------------------------
+# TIME-BASED  : runs every 24h automatically
+# EVENT-BASED : "Run workflow" button = your manual force-refresh
+#               + auto-runs when the refresh script itself changes
+# Cost: FREE (public repos get unlimited GitHub Actions minutes)
+# ---------------------------------------------------------------
+on:
+  schedule:
+    # 02:30 UTC = 08:00 IST daily. Cron here is ALWAYS UTC.
+    - cron: "30 2 * * *"
+  workflow_dispatch:          # <- the manual "force refresh" trigger
+  push:
+    paths:
+      - "scripts/refresh_jobs.py"
+      - ".github/workflows/refresh-jobs.yml"
+
+permissions:
+  contents: write             # needed to commit updated jobs.json
+
+concurrency:
+  group: refresh-jobs         # never let two refreshes race each other
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run aggregator
+        id: refresh
+        continue-on-error: true      # a dead source shouldn't kill the whole run
+        run: python scripts/refresh_jobs.py
+
+      - name: Commit updated data
+        run: |
+          git config user.name  "assam-job-setu-bot"
+          git config user.email "actions@github.com"
+          git add data/
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: auto-refresh jobs ($(date -u +%Y-%m-%d))"
+            git push
+            echo "Pushed updated job data -> Cloudflare Pages redeploys automatically."
+          fi
+
+      - name: Fail if a source is down 2+ cycles
+        if: steps.refresh.outcome == 'failure'
+        run: |
+          echo "::warning::A source has been unreachable for 2+ refresh cycles."
+          echo "Check the 'Run aggregator' step above for which one."
+          exit 1

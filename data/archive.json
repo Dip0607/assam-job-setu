@@ -1,0 +1,135 @@
+[
+  {
+    "id": "dee-lp-up-2025",
+    "title_en": "Assistant Teacher (Lower & Upper Primary)",
+    "title_as": "সহকাৰী শিক্ষক (নিম্ন আৰু উচ্চ প্ৰাথমিক)",
+    "org_en": "Directorate of Elementary Education (DEE), Assam",
+    "org_as": "প্ৰাথমিক শিক্ষা সঞ্চালকালয় (DEE), অসম",
+    "org_type": "State Govt",
+    "sector": "Education & Teaching",
+    "total_vacancies": 4500,
+    "education_level": [
+      "12th",
+      "Diploma",
+      "Graduate"
+    ],
+    "streams": [
+      "D.El.Ed",
+      "B.Ed",
+      "B.Sc",
+      "Any Graduate"
+    ],
+    "age_min": 18,
+    "age_max": 40,
+    "age_ref_date": "2025-01-01",
+    "age_relaxation": {
+      "OBC-MOBC": 3,
+      "SC": 5,
+      "ST(P)": 5,
+      "ST(H)": 5,
+      "PwD": 10
+    },
+    "pay_scale": "PB-2 ₹14,000–₹70,000 + GP",
+    "districts": [
+      "Anywhere in Assam"
+    ],
+    "domicile": "Assam only",
+    "gender": "All",
+    "start_date": "2025-03-08",
+    "last_date": "2025-04-08",
+    "apply_link": "https://rectteduassam.in/elementary2025/lp_up_2025/",
+    "official_pdf": "https://dee.assam.gov.in/",
+    "source_url": "https://www.assamcareer.com/2021/09/dee-lp-up-teacher.html",
+    "status": "Closed",
+    "last_verified": "2026-07-25",
+    "note_en": "Requires ATET/CTET qualification. Small Family Norms apply.",
+    "note_as": "ATET/CTET আৱশ্যক। ক্ষুদ্ৰ পৰিয়াল নীতি প্ৰযোজ্য।",
+    "archived_on": "2026-07-25"
+  },
+  {
+    "id": "apsc-cce-2025",
+    "title_en": "Combined Competitive Examination (CCE) — Civil Services",
+    "title_as": "সন্মিলিত প্ৰতিযোগিতামূলক পৰীক্ষা (CCE)",
+    "org_en": "Assam Public Service Commission (APSC)",
+    "org_as": "অসম লোকসেৱা আয়োগ (APSC)",
+    "org_type": "State Govt",
+    "sector": "Clerical & Administrative",
+    "total_vacancies": 78,
+    "education_level": [
+      "Graduate",
+      "Postgraduate"
+    ],
+    "streams": [
+      "Any Graduate"
+    ],
+    "age_min": 21,
+    "age_max": 38,
+    "age_ref_date": "2025-01-01",
+    "age_relaxation": {
+      "OBC-MOBC": 3,
+      "SC": 5,
+      "ST(P)": 5,
+      "ST(H)": 5,
+      "PwD": 10
+    },
+    "pay_scale": "PB-4 ₹30,000–₹1,10,000 + GP ₹12,700",
+    "districts": [
+      "Anywhere in Assam"
+    ],
+    "domicile": "Assam only",
+    "gender": "All",
+    "start_date": "2026-04-13",
+    "last_date": "2026-05-03",
+    "apply_link": "https://apsc.nic.in",
+    "official_pdf": "https://apsc.nic.in/advt_2025/cce_2024_12_2025.pdf",
+    "source_url": "https://www.assamcareer.com/2020/10/apsc-cce.html",
+    "status": "Closed",
+    "last_verified": "2026-07-25",
+    "note_en": "Posts: Asst Labour Inspector, Excise Inspector, Sub-Registrar, etc. Category-wise: UR 42, OBC/MOBC 14, SC 8, STP 7, STH 7, PwBD 3.",
+    "note_as": "পদসমূহ: শ্ৰম পৰিদৰ্শক, আবকাৰী পৰিদৰ্শক আদি।",
+    "archived_on": "2026-07-25"
+  },
+  {
+    "id": "assam-police-constable-2026",
+    "title_en": "Constable (UB & AB)",
+    "title_as": "কনষ্টেবল (UB আৰু AB)",
+    "org_en": "Assam Police Recruitment Board",
+    "org_as": "অসম আৰক্ষী নিয়োগ বʼৰ্ড",
+    "org_type": "State Govt",
+    "sector": "Police & Defence",
+    "total_vacancies": 2134,
+    "education_level": [
+      "10th",
+      "12th"
+    ],
+    "streams": [
+      "Any"
+    ],
+    "age_min": 18,
+    "age_max": 28,
+    "age_ref_date": "2026-01-01",
+    "age_relaxation": {
+      "OBC-MOBC": 3,
+      "SC": 5,
+      "ST(P)": 5,
+      "ST(H)": 5,
+      "PwD": 0
+    },
+    "pay_scale": "PB-2 ₹14,000–₹49,000 + GP ₹5,600",
+    "districts": [
+      "Anywhere in Assam"
+    ],
+    "domicile": "Assam only",
+    "gender": "All",
+    "start_date": "2026-05-10",
+    "last_date": "2026-06-09",
+    "apply_link": "https://slprbassam.in",
+    "official_pdf": "https://slprbassam.in",
+    "source_url": "https://www.assamcareer.com/",
+    "status": "Closed",
+    "last_verified": "2026-07-25",
+    "note_en": "Physical standards & PET apply. 705 UB + 1429 AB posts.",
+    "note_as": "শাৰীৰিক মান আৰু PET প্ৰযোজ্য।",
+    "archived_on": "2026-07-25"
+  }
+]
