@@ -7,8 +7,10 @@
 //  Paste your Supabase keys below to switch on real accounts.
 // ============================================================
 
-const SUPABASE_URL  = "";   // e.g. "https://xxxxx.supabase.co"
-const SUPABASE_ANON = "";   // the "anon public" key — safe in frontend
+// Publishable key = safe to expose in frontend code (that is its purpose).
+// NEVER put the `service_role` / secret key here.
+const SUPABASE_URL  = "https://mwbjtpqhlomxgtyvanhg.supabase.co";
+const SUPABASE_ANON = "sb_publishable_oBA0genK5yLB6n8G8h4bng_S0Aa5DYy";
 
 // ---- state ----
 let sb = null, USER = null;
@@ -86,13 +88,29 @@ async function syncSaved(ids){
 }
 
 // ---- UI ----
+async function deleteMyData(){
+  if(!confirm('Delete your profile and saved jobs permanently? This cannot be undone.')) return;
+  try{ localStorage.removeItem('profile'); localStorage.removeItem('saved'); }catch(e){}
+  if(CLOUD() && USER){
+    const { error } = await sb.from('profiles').delete().eq('user_id', USER.id);
+    if(error){ toast('Could not delete: '+error.message); return; }
+    await sb.auth.signOut();
+  }
+  USER=null; if(typeof clearProfile==='function') clearProfile();
+  onAuthChange(); toast('Your data has been deleted.');
+}
+
 function renderAuthUI(){
   const box = document.getElementById('authbox'); if(!box) return;
+  const esc = s => String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   if(USER){
-    const who = USER.email || 'Signed in';
+    const who = esc(USER.email || 'Signed in');
     box.innerHTML = `<div class="authed">👤 <b>${who}</b>
       <div class="authnote">Profile & saved jobs sync across your devices.</div>
-      <button class="btn sec" onclick="logout()">Sign out</button></div>`;
+      <button class="btn sec" id="btn_logout">Sign out</button>
+      <button class="btn danger" id="btn_delete">Delete my data</button></div>`;
+    document.getElementById('btn_logout').addEventListener('click',logout);
+    document.getElementById('btn_delete').addEventListener('click',deleteMyData);
   } else if (!CLOUD()) {
     box.innerHTML = `<div class="authnote">
       💾 Your profile is saved <b>on this device only</b>.<br>
@@ -101,9 +119,11 @@ function renderAuthUI(){
     box.innerHTML = `
       <div class="authnote">Sign in free to sync your profile and get job alerts.</div>
       <input type="email" id="auth_email" placeholder="you@email.com">
-      <button class="btn" onclick="loginEmail()">✉️ Email me a login link</button>
-      <button class="btn sec" onclick="loginGoogle()">Continue with Google</button>
-      <div class="authnote" style="margin-top:6px">No password needed.</div>`;
+      <button class="btn" id="btn_email">✉️ Email me a login link</button>
+      <div class="authnote" style="margin-top:6px">No password needed. We only store what the
+        eligibility filter needs — never your name or address.
+        <a href="privacy.html" style="color:var(--brand)">Privacy</a></div>`;
+    document.getElementById('btn_email').addEventListener('click',loginEmail);
   }
 }
 
