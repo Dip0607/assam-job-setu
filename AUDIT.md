@@ -108,3 +108,23 @@ Profile: age 30, Graduate, ST(P), Assam domicile
   NF Railway Apprentice     -> NOT ELIGIBLE ("Max age 29 (incl. +5)")
 ```
 Correct: max age 24 + ST(P) relaxation 5 = 29, and 30 > 29. **Category-relaxation math intact.**
+
+---
+
+## 🗄️ Database RLS verification (25 Jul 2026)
+
+`profiles` table created; Row Level Security **actively enforced**. Verified by attempting
+real breaches against the live API with the public key:
+
+| # | Attack attempted | Result |
+|---|---|---|
+| 1 | Read table (does it exist?) | HTTP 200 — table live |
+| 2 | Read ALL profiles anonymously | `[]` — RLS filtered every row |
+| 3 | **INSERT a fake profile** | **REJECTED `42501` — violates row-level security policy** |
+| 4 | UPDATE another user's row | `[]` — nothing modified |
+| 5 | DELETE all rows | `[]` — nothing deleted |
+
+Auth config confirmed: email magic-link **ON** (free) · phone/SMS **OFF** ($75/mo avoided) · signups open.
+
+Client-side check: `sb.from('profiles').select()` returns **no error, 0 rows** while anonymous —
+correct RLS behaviour (not a 404, not a leak).
