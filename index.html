@@ -104,6 +104,62 @@ select:focus,input:focus{outline:0;border-color:var(--brand-l);box-shadow:0 0 0 
  background:linear-gradient(180deg,var(--brand-l),var(--brand))}
 .card.closed{opacity:.6}
 .card.closed h3{text-decoration:line-through;text-decoration-color:#cbd5e1}
+/* ---------- login gate ---------- */
+/* App is hidden by default; .authed on <html> reveals it. No flash, no bleed-through. */
+html:not(.authed) body > header,
+html:not(.authed) body > .layout,
+html:not(.authed) body > footer{display:none!important}
+html.authed #gate{display:none!important}
+#gate{position:fixed;inset:0;z-index:9999;display:flex;align-items:flex-start;justify-content:center;
+ padding:24px 20px 40px;background:linear-gradient(135deg,#134e4a,#0f766e 55%,#0d9488);
+ overflow-y:auto;-webkit-overflow-scrolling:touch}
+@media(min-height:760px){#gate{align-items:center}}
+
+#gate::after{content:"";position:absolute;inset:0;
+ background:radial-gradient(900px 400px at 75% -20%,#5eead444,transparent 70%);pointer-events:none}
+.gbox{background:#fff;border-radius:22px;max-width:430px;width:100%;padding:28px 30px;
+ box-shadow:0 20px 60px #0006;position:relative;z-index:1;margin:auto}
+.glogo{width:48px;height:48px;background:linear-gradient(135deg,var(--brand),var(--brand-l));
+ color:#fff;border-radius:17px;display:grid;place-items:center;font-weight:800;font-size:1.3rem;
+ margin-bottom:18px}
+.gbox h1{font-size:1.42rem;letter-spacing:-.025em;margin-bottom:6px;line-height:1.25}
+.gsub{color:var(--muted);font-size:.87rem;margin-bottom:18px;line-height:1.5}
+.gfeat{display:flex;flex-direction:column;gap:8px;margin-bottom:18px;padding:14px;
+ background:var(--brand-bg);border-radius:13px;border:1px solid #99f6e4}
+.gfeat div{display:flex;gap:9px;align-items:flex-start;font-size:.85rem;color:var(--ink-2);font-weight:500}
+.gfeat b{color:var(--brand-d)}
+#gate input{width:100%;padding:13px 15px;border:1.5px solid var(--line);border-radius:11px;
+ font:inherit;font-size:.92rem;margin-bottom:10px}
+#gate input:focus{outline:0;border-color:var(--brand-l);box-shadow:0 0 0 3px #14b8a626}
+.gbtn{width:100%;padding:13px;border:0;border-radius:11px;background:var(--brand);color:#fff;
+ font-weight:700;cursor:pointer;font-size:.92rem;font-family:inherit;transition:.18s}
+.gbtn:hover:not(:disabled){background:var(--brand-d);box-shadow:0 6px 18px #0f766e40}
+.gbtn:disabled{opacity:.6;cursor:wait}
+.gmsg{font-size:.82rem;margin-top:12px;line-height:1.5;padding:0}
+.gmsg.ok{background:#ccfbf1;color:#115e59;padding:12px;border-radius:10px}
+.gmsg.err{background:#fee2e2;color:#991b1b;padding:12px;border-radius:10px}
+.gfoot{margin-top:20px;padding-top:16px;border-top:1px solid var(--line);
+ font-size:.75rem;color:var(--muted);line-height:1.55}
+.gfoot a{color:var(--brand);font-weight:600}
+.glang{display:flex;gap:6px;margin-bottom:16px}
+.glang button{flex:1;padding:7px;border:1.5px solid var(--line);background:#fff;border-radius:9px;
+ font:inherit;font-size:.8rem;font-weight:600;cursor:pointer;color:var(--muted)}
+.glang button.on{background:var(--brand-bg);border-color:var(--brand-l);color:var(--brand-d)}
+@media(max-width:480px){.gbox{padding:28px 22px}.gbox h1{font-size:1.28rem}}
+/* short viewports: compact the card so nothing clips (declared last = wins) */
+@media(max-height:700px){
+  .gbox{padding:20px 26px}
+  .gfeat{gap:5px;padding:10px;margin-bottom:12px}
+  .gfeat div{font-size:.79rem}
+  .gsub{margin-bottom:12px;font-size:.81rem}
+  .glogo{width:38px;height:38px;font-size:1rem;margin-bottom:10px}
+  .gbox h1{font-size:1.2rem}
+  .glang{margin-bottom:10px}
+  .glang button{padding:5px}
+  #gate input{padding:11px 14px;margin-bottom:8px}
+  .gbtn{padding:11px}
+  .gfoot{margin-top:12px;padding-top:10px;font-size:.7rem}
+}
 .badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px}
 .badge{font-size:.68rem;font-weight:700;padding:4px 10px;border-radius:8px;background:#f1f5f9;
  color:var(--ink-2);letter-spacing:.01em}
@@ -158,6 +214,28 @@ footer{max-width:1200px;margin:14px auto 36px;padding:18px;font-size:.79rem;colo
 </style>
 </head>
 <body>
+<!-- LOGIN WALL: shown by default; hidden only after successful auth -->
+<div id="gate" style="display:flex">
+  <div class="gbox">
+    <div class="glang">
+      <button type="button" id="g_en" class="on">English</button>
+      <button type="button" id="g_as">অসমীয়া</button>
+    </div>
+    <div class="glogo">JS</div>
+    <h1 data-g="title">Assam Job Setu</h1>
+    <p class="gsub" data-g="sub">Sign in to see the government jobs you actually qualify for — APSC, teaching, police, PSU and central jobs across Assam.</p>
+    <div class="gfeat">
+      <div>🎯 <span data-g="f1"><b>Only your jobs.</b> Filtered by your age, category, education and district.</span></div>
+      <div>⏰ <span data-g="f2"><b>Never miss a deadline.</b> Closing-soon alerts on your shortlist.</span></div>
+      <div>🔒 <span data-g="f3"><b>Private.</b> We store only what the filter needs — never your name or documents.</span></div>
+    </div>
+    <input type="email" id="gate_email" placeholder="you@email.com" autocomplete="email" inputmode="email">
+    <button class="gbtn" id="gate_btn" type="button" data-g="btn">✉️ Email me a sign-in link</button>
+    <div class="gmsg" id="gate_msg"></div>
+    <div class="gfoot" data-g="foot">No password needed. By signing in you agree to our
+      <a href="privacy.html">Privacy Policy</a>. We never sell your data, and you can delete it any time.</div>
+  </div>
+</div>
 <header>
   <div class="hwrap">
     <div class="brand"><span class="logo">JS</span>
@@ -247,8 +325,10 @@ footer{max-width:1200px;margin:14px auto 36px;padding:18px;font-size:.79rem;colo
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const T={
- en:{brand:"Assam Job Setu",tag:"Tell us your profile once — see only the government jobs you actually qualify for.",refreshed:"Updated",amieligible:"Am I Eligible?",age:"Your age",edu:"Highest education",cat:"Category",domi:"Assam domicile?",findjobs:"Find my jobs",clearp:"Clear",filters:"Filters",jobtype:"Job type",sector:"Sector",edulvl:"Education level",deadline:"Deadline",statusf:"Status",onlyelig:"Only eligible",showclosed:"Show closed",jobs:"jobs",search:"Search post, department…",disc1:"⚠️ Assam Job Setu is an aggregator. Always verify every detail on the official notification PDF before applying. We never collect your application — we deep-link to the official government portal.",applybtn:"Apply on official portal",pdf:"Official PDF",elig:"You're eligible",notelig:"Not eligible",save:"Save",saved:"Saved",account:"Account",s_open:"open now",s_soon:"closing in 3 days",s_vac:"total vacancies",s_src:"sources tracked",nores:"No matching jobs",nores2:"Try clearing a filter or ticking “Show closed”.",vac:"Vacancies",agel:"Age",pay:"Pay",domil:"Domicile",applyby:"Apply by",edul:"Education",more:"Looking for more?",more2:"Tick “Show closed” to see recently closed jobs, or clear a filter.",more3:"That’s every job currently open. Tick “Show closed” to see recently closed ones."},
- as:{brand:"অসম জব সেতু",tag:"এবাৰ আপোনাৰ প্ৰʼফাইল দিয়ক — কেৱল আপুনি যোগ্য চৰকাৰী চাকৰিবোৰ চাওক।",refreshed:"আপডেট",amieligible:"মই যোগ্য নেকি?",age:"আপোনাৰ বয়স",edu:"সৰ্বোচ্চ শিক্ষা",cat:"শ্ৰেণী",domi:"অসমৰ স্থায়ী বাসিন্দা?",findjobs:"চাকৰি বিচাৰক",clearp:"পৰিষ্কাৰ",filters:"ফিল্টাৰ",jobtype:"চাকৰিৰ ধৰণ",sector:"খণ্ড",edulvl:"শিক্ষাৰ স্তৰ",deadline:"অন্তিম তাৰিখ",statusf:"অৱস্থা",onlyelig:"কেৱল যোগ্য",showclosed:"বন্ধ হোৱা দেখুৱাওক",jobs:"চাকৰি",search:"পদ, বিভাগ বিচাৰক…",disc1:"⚠️ অসম জব সেতু এটা সংগ্ৰাহক। আবেদনৰ আগতে চৰকাৰী বিজ্ঞপ্তি PDF চাই লওক।",applybtn:"চৰকাৰী পʼৰ্টেলত আবেদন",pdf:"চৰকাৰী PDF",elig:"আপুনি যোগ্য",notelig:"যোগ্য নহয়",save:"সাচি থওক",saved:"সাচি থোৱা",account:"একাউণ্ট",s_open:"এতিয়া খোলা",s_soon:"৩ দিনত বন্ধ",s_vac:"মুঠ পদ",s_src:"উৎস",nores:"কোনো চাকৰি পোৱা নগʼল",nores2:"ফিল্টাৰ পৰিষ্কাৰ কৰি চাওক।",vac:"পদ",agel:"বয়স",pay:"দৰমহা",domil:"বাসিন্দা",applyby:"অন্তিম তাৰিখ",edul:"শিক্ষা",more:"আৰু বিচাৰিছে নেকি?",more2:"“বন্ধ হোৱা দেখুৱাওক” টিপক বা ফিল্টাৰ পৰিষ্কাৰ কৰক।",more3:"এতিয়া খোলা থকা সকলো চাকৰি ইয়াতে আছে।"}
+ en:{brand:"Assam Job Setu",tag:"Tell us your profile once — see only the government jobs you actually qualify for.",refreshed:"Updated",amieligible:"Am I Eligible?",age:"Your age",edu:"Highest education",cat:"Category",domi:"Assam domicile?",findjobs:"Find my jobs",clearp:"Clear",filters:"Filters",jobtype:"Job type",sector:"Sector",edulvl:"Education level",deadline:"Deadline",statusf:"Status",onlyelig:"Only eligible",showclosed:"Show closed",jobs:"jobs",search:"Search post, department…",disc1:"⚠️ Assam Job Setu is an aggregator. Always verify every detail on the official notification PDF before applying. We never collect your application — we deep-link to the official government portal.",applybtn:"Apply on official portal",pdf:"Official PDF",elig:"You're eligible",notelig:"Not eligible",save:"Save",saved:"Saved",account:"Account",s_open:"open now",s_soon:"closing in 3 days",s_vac:"total vacancies",s_src:"sources tracked",nores:"No matching jobs",nores2:"Try clearing a filter or ticking “Show closed”.",vac:"Vacancies",agel:"Age",pay:"Pay",domil:"Domicile",applyby:"Apply by",edul:"Education",more:"Looking for more?",more2:"Tick “Show closed” to see recently closed jobs, or clear a filter.",more3:"That’s every job currently open. Tick “Show closed” to see recently closed ones.",
+  g_title:"Assam Job Setu",g_sub:"Sign in to see the government jobs you actually qualify for — APSC, teaching, police, PSU and central jobs across Assam.",g_f1:"<b>Only your jobs.</b> Filtered by your age, category, education and district.",g_f2:"<b>Never miss a deadline.</b> Closing-soon alerts on your shortlist.",g_f3:"<b>Private.</b> We store only what the filter needs — never your name or documents.",g_btn:"✉️ Email me a sign-in link"},
+ as:{brand:"অসম জব সেতু",tag:"এবাৰ আপোনাৰ প্ৰʼফাইল দিয়ক — কেৱল আপুনি যোগ্য চৰকাৰী চাকৰিবোৰ চাওক।",refreshed:"আপডেট",amieligible:"মই যোগ্য নেকি?",age:"আপোনাৰ বয়স",edu:"সৰ্বোচ্চ শিক্ষা",cat:"শ্ৰেণী",domi:"অসমৰ স্থায়ী বাসিন্দা?",findjobs:"চাকৰি বিচাৰক",clearp:"পৰিষ্কাৰ",filters:"ফিল্টাৰ",jobtype:"চাকৰিৰ ধৰণ",sector:"খণ্ড",edulvl:"শিক্ষাৰ স্তৰ",deadline:"অন্তিম তাৰিখ",statusf:"অৱস্থা",onlyelig:"কেৱল যোগ্য",showclosed:"বন্ধ হোৱা দেখুৱাওক",jobs:"চাকৰি",search:"পদ, বিভাগ বিচাৰক…",disc1:"⚠️ অসম জব সেতু এটা সংগ্ৰাহক। আবেদনৰ আগতে চৰকাৰী বিজ্ঞপ্তি PDF চাই লওক।",applybtn:"চৰকাৰী পʼৰ্টেলত আবেদন",pdf:"চৰকাৰী PDF",elig:"আপুনি যোগ্য",notelig:"যোগ্য নহয়",save:"সাচি থওক",saved:"সাচি থোৱা",account:"একাউণ্ট",s_open:"এতিয়া খোলা",s_soon:"৩ দিনত বন্ধ",s_vac:"মুঠ পদ",s_src:"উৎস",nores:"কোনো চাকৰি পোৱা নগʼল",nores2:"ফিল্টাৰ পৰিষ্কাৰ কৰি চাওক।",vac:"পদ",agel:"বয়স",pay:"দৰমহা",domil:"বাসিন্দা",applyby:"অন্তিম তাৰিখ",edul:"শিক্ষা",more:"আৰু বিচাৰিছে নেকি?",more2:"“বন্ধ হোৱা দেখুৱাওক” টিপক বা ফিল্টাৰ পৰিষ্কাৰ কৰক।",more3:"এতিয়া খোলা থকা সকলো চাকৰি ইয়াতে আছে।",
+  g_title:"অসম জব সেতু",g_sub:"আপুনি যোগ্য চৰকাৰী চাকৰিবোৰ চাবলৈ ছাইন ইন কৰক — APSC, শিক্ষা, আৰক্ষী, PSU আৰু কেন্দ্ৰীয় চাকৰি।",g_f1:"<b>কেৱল আপোনাৰ চাকৰি।</b> বয়স, শ্ৰেণী, শিক্ষা অনুসৰি।",g_f2:"<b>তাৰিখ নেৰিব।</b> বন্ধ হোৱাৰ আগতে সতৰ্কবাৰ্তা।",g_f3:"<b>গোপনীয়।</b> কেৱল প্ৰয়োজনীয় তথ্য — নাম বা নথি নহয়।",g_btn:"✉️ ছাইন ইন লিংক পঠিয়াওক"}
 };
 let LANG='en', JOBS=[], PROFILE=null, saved=[];
 try{ saved=JSON.parse(localStorage.getItem('saved')||'[]'); }catch(e){ saved=[]; }
@@ -266,6 +346,10 @@ const safeUrl = u => {
 const $=id=>document.getElementById(id);
 function setLang(l){LANG=l;document.body.classList.toggle('as',l==='as');
  $('en').classList.toggle('on',l==='en'); $('as').classList.toggle('on',l==='as');
+ if($('g_en')){$('g_en').classList.toggle('on',l==='en');$('g_as').classList.toggle('on',l==='as');}
+ document.querySelectorAll('[data-g]').forEach(e=>{const k='g_'+e.dataset.g;
+   if(T[l][k]!==undefined){ if(k==='g_f1'||k==='g_f2'||k==='g_f3') e.innerHTML=T[l][k]; else e.textContent=T[l][k]; }});
+ if($('gate_btn')) $('gate_btn').textContent=T[l].g_btn;
  document.querySelectorAll('[data-t]').forEach(e=>{const k=e.dataset.t;if(T[l][k])e.textContent=T[l][k]});
  document.querySelectorAll('[data-tp]').forEach(e=>{const k=e.dataset.tp;if(T[l][k])e.placeholder=T[l][k]});
  render();}
@@ -412,6 +496,11 @@ $('q').addEventListener('input',render);
 $('list').addEventListener('click',ev=>{
  const b=ev.target.closest('[data-save]'); if(b) save(b.getAttribute('data-save'));
 });
+/* login-gate events */
+$('g_en').addEventListener('click',()=>setLang('en'));
+$('g_as').addEventListener('click',()=>setLang('as'));
+$('gate_btn').addEventListener('click',()=>gateEmailLogin());
+$('gate_email').addEventListener('keydown',e=>{if(e.key==='Enter')gateEmailLogin();});
 
 /* ---- load ---- */
 fetch('data/jobs.json').then(r=>r.json()).then(d=>{
@@ -429,6 +518,7 @@ fetch('data/jobs.json').then(r=>r.json()).then(d=>{
  }).catch(()=>{$('refts').textContent=fmtDate(new Date())});
 }).catch(()=>{$('list').innerHTML='<div class="empty"><h3>Could not load jobs</h3><p>Run via a local server — see README.</p></div>';});
 </script>
+<script src="gate.js"></script>
 <script src="auth.js"></script>
 </body>
 </html>

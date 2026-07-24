@@ -26,6 +26,7 @@ async function initAuth(){
   }
   await loadProfile();
   renderAuthUI();
+  if(typeof applyGate==='function') applyGate();   // show/hide the login wall
 }
 
 // ---- login methods (both FREE) ----
@@ -52,7 +53,8 @@ async function logout(){
   USER = null; onAuthChange();
 }
 
-function onAuthChange(){ renderAuthUI(); loadProfile(); }
+function onAuthChange(){ renderAuthUI(); loadProfile();
+  if(typeof applyGate==='function') applyGate(); }
 
 // ---- profile: cloud when logged in, localStorage otherwise ----
 // Privacy (DPDP): we store birth_year, NOT full DOB. Minimum data only.
@@ -111,6 +113,9 @@ function renderAuthUI(){
       <button class="btn danger" id="btn_delete">Delete my data</button></div>`;
     document.getElementById('btn_logout').addEventListener('click',logout);
     document.getElementById('btn_delete').addEventListener('click',deleteMyData);
+  } else if (USER===null && document.getElementById('gate') && !document.documentElement.classList.contains('authed')) {
+    // login wall is up — the gate screen owns sign-in; keep the sidebar quiet
+    box.innerHTML = '<div class="authnote">Sign in to continue.</div>';
   } else if (!CLOUD()) {
     box.innerHTML = `<div class="authnote">
       💾 Your profile is saved <b>on this device only</b>.<br>
