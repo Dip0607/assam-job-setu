@@ -5,97 +5,186 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Assam Job Setu — Only the govt jobs you qualify for</title>
 <meta name="description" content="Assam government & PSU job alerts. Tell us your profile once, see only the jobs you're eligible for — APSC, teaching, police, PSU & central jobs for Assam.">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#0f766e">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<!-- SECURITY: CSP restricts what can execute/load. 'unsafe-inline' is needed for the inline
+     styles/scripts in this single-file app; everything else is locked to known origins. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --green:#0b7a4b; --green-d:#075c38; --amber:#e08a1e; --red:#c0392b;
-  --ink:#1a2b23; --muted:#5c6b64; --line:#e2e8e4; --bg:#f6f9f7; --card:#fff;
+  --brand:#0f766e; --brand-d:#115e59; --brand-l:#14b8a6; --brand-bg:#f0fdfa;
+  --amber:#d97706; --red:#dc2626; --blue:#2563eb; --violet:#7c3aed;
+  --ink:#0f172a; --ink-2:#334155; --muted:#64748b; --line:#e2e8f0;
+  --bg:#f8fafc; --card:#fff; --r:16px;
+  --sh:0 1px 2px #0f172a08, 0 4px 12px #0f172a0a;
+  --sh-lg:0 4px 6px #0f172a08, 0 12px 32px #0f172a12;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter','Noto Sans Bengali',sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
-body.as{font-family:'Noto Sans Bengali','Inter',sans-serif}
-header{background:linear-gradient(135deg,var(--green),var(--green-d));color:#fff;padding:18px 20px}
-.hwrap{max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.25rem}
-.brand .logo{width:34px;height:34px;background:#fff;color:var(--green);border-radius:9px;display:grid;place-items:center;font-weight:800}
-.tag{font-size:.82rem;opacity:.92;font-weight:400;max-width:520px}
-.lang{display:flex;background:rgba(255,255,255,.16);border-radius:20px;padding:3px;font-size:.8rem;font-weight:600}
-.lang button{border:0;background:transparent;color:#fff;padding:5px 12px;border-radius:18px;cursor:pointer}
-.lang button.on{background:#fff;color:var(--green)}
-.refreshed{font-size:.72rem;opacity:.85;text-align:right;width:100%;margin-top:4px}
-.layout{max-width:1180px;margin:18px auto;padding:0 16px;display:grid;grid-template-columns:290px 1fr;gap:18px}
-@media(max-width:860px){.layout{grid-template-columns:1fr}}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
-.panel h2{font-size:.95rem;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.ehead{background:linear-gradient(135deg,#0b7a4b0d,#e08a1e0d);border:1px solid #0b7a4b33}
-.field{margin-bottom:11px}
-.field label{display:block;font-size:.76rem;font-weight:600;color:var(--muted);margin-bottom:4px}
-select,input[type=number],input[type=text]{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:9px;font:inherit;background:#fff}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.btn{width:100%;padding:10px;border:0;border-radius:10px;background:var(--green);color:#fff;font-weight:600;cursor:pointer;font-size:.9rem}
-.btn.sec{background:#eef3f0;color:var(--ink)}
-.btn+.btn{margin-top:7px}
-.filters .field{margin-bottom:9px}
-.toolbar{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
-.search{flex:1;min-width:180px}
-.count{font-size:.85rem;color:var(--muted);font-weight:600}
-.toggle{display:flex;align-items:center;gap:7px;font-size:.82rem;font-weight:600;cursor:pointer;background:#fff;border:1px solid var(--line);padding:7px 12px;border-radius:10px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:12px;position:relative}
-.card.elig{border-left:4px solid var(--green)}
-.card h3{font-size:1.06rem;margin-bottom:3px}
-.org{font-size:.85rem;color:var(--muted);margin-bottom:9px}
-.badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
-.badge{font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:20px;background:#eef3f0;color:var(--green-d)}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans','Noto Sans Bengali',system-ui,sans-serif;background:var(--bg);
+ color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;font-size:15px}
+body.as{font-family:'Noto Sans Bengali','Plus Jakarta Sans',sans-serif}
+
+/* ---------- header ---------- */
+header{background:linear-gradient(135deg,#134e4a,#0f766e 55%,#0d9488);color:#fff;position:relative;overflow:hidden}
+header::after{content:"";position:absolute;inset:0;
+ background:radial-gradient(900px 300px at 78% -30%,#5eead444,transparent 70%);pointer-events:none}
+.hwrap{max-width:1200px;margin:0 auto;padding:16px 20px;display:flex;align-items:center;
+ justify-content:space-between;gap:14px;flex-wrap:wrap;position:relative;z-index:1}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:42px;height:42px;background:#fff;color:var(--brand);border-radius:13px;display:grid;
+ place-items:center;font-weight:800;font-size:1.05rem;flex-shrink:0;box-shadow:0 3px 10px #0003}
+.bt{font-weight:800;font-size:1.3rem;letter-spacing:-.02em;line-height:1.2}
+.tag{font-size:.83rem;opacity:.9;font-weight:400;max-width:620px;margin-top:2px;line-height:1.4}
+.hright{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.lang{display:flex;background:#ffffff24;border-radius:999px;padding:3px;font-size:.8rem;
+ font-weight:600;backdrop-filter:blur(8px);border:1px solid #ffffff2e}
+.lang button{border:0;background:transparent;color:#fff;padding:6px 15px;border-radius:999px;
+ cursor:pointer;font:inherit;transition:.18s}
+.lang button.on{background:#fff;color:var(--brand-d)}
+.refreshed{font-size:.73rem;opacity:.9;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.dot{width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 0 3px #4ade8033}
+
+/* ---------- stat strip ---------- */
+.stats{background:#0b3f3aE6;border-top:1px solid #ffffff1a;position:relative;z-index:1}
+.swrap{max-width:1200px;margin:0 auto;padding:9px 20px;display:flex;gap:26px;flex-wrap:wrap;
+ color:#fff;font-size:.79rem}
+.swrap b{font-weight:700;color:#5eead4}
+
+/* ---------- layout ---------- */
+.layout{max-width:1200px;margin:20px auto;padding:0 16px;display:grid;
+ grid-template-columns:296px 1fr;gap:20px;align-items:start}
+@media(max-width:900px){.layout{grid-template-columns:1fr}aside{position:static!important}}
+aside{position:sticky;top:16px;display:flex;flex-direction:column;gap:14px}
+main{min-height:auto}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;
+ box-shadow:var(--sh)}
+.panel h2{font-size:.85rem;margin-bottom:14px;display:flex;align-items:center;gap:8px;
+ font-weight:700;letter-spacing:.02em;text-transform:uppercase;color:var(--ink-2)}
+.hero-panel{background:linear-gradient(160deg,#f0fdfa,#fff);border:1.5px solid #99f6e4}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:.75rem;font-weight:600;color:var(--muted);margin-bottom:5px}
+select,input[type=number],input[type=text],input[type=email]{width:100%;padding:10px 12px;
+ border:1.5px solid var(--line);border-radius:10px;font:inherit;font-size:.88rem;background:#fff;
+ color:var(--ink);transition:.18s;appearance:none}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+ background-repeat:no-repeat;background-position:right 11px center;padding-right:30px}
+select:focus,input:focus{outline:0;border-color:var(--brand-l);box-shadow:0 0 0 3px #14b8a626}
+.btn{width:100%;padding:11px;border:0;border-radius:10px;background:var(--brand);color:#fff;
+ font-weight:700;cursor:pointer;font-size:.88rem;font-family:inherit;transition:.18s}
+.btn:hover{background:var(--brand-d);transform:translateY(-1px);box-shadow:0 4px 12px #0f766e40}
+.btn.sec{background:#fff;color:var(--ink);border:1.5px solid var(--line);font-weight:600}
+.btn.sec:hover{background:#e2e8f0;box-shadow:none;transform:none}
+.btn+.btn{margin-top:8px}
+
+/* ---------- toolbar ---------- */
+.toolbar{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+.search{flex:1;min-width:200px;position:relative}
+.search input{padding-left:38px;border-radius:12px;box-shadow:var(--sh)}
+.search::before{content:"🔍";position:absolute;left:13px;top:50%;transform:translateY(-50%);
+ font-size:.85rem;opacity:.5;pointer-events:none}
+.chip{display:inline-flex;align-items:center;gap:7px;font-size:.8rem;font-weight:600;cursor:pointer;
+ background:#fff;border:1.5px solid var(--line);padding:9px 14px;border-radius:12px;
+ transition:.18s;user-select:none;color:var(--ink-2)}
+.chip:hover{border-color:#cbd5e1}
+.chip.on{background:var(--brand-bg);border-color:var(--brand-l);color:var(--brand-d)}
+.chip input{accent-color:var(--brand);cursor:pointer;margin:0}
+.count{font-size:.82rem;color:var(--muted);font-weight:600;margin-left:auto}
+.count b{color:var(--ink);font-size:.95rem}
+
+/* ---------- cards ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;
+ margin-bottom:13px;box-shadow:var(--sh);transition:.2s;position:relative;overflow:hidden}
+.card:hover{box-shadow:var(--sh-lg);transform:translateY(-2px);border-color:#cbd5e1}
+.card.elig::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+ background:linear-gradient(180deg,var(--brand-l),var(--brand))}
+.card.closed{opacity:.6}
+.card.closed h3{text-decoration:line-through;text-decoration-color:#cbd5e1}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px}
+.badge{font-size:.68rem;font-weight:700;padding:4px 10px;border-radius:8px;background:#f1f5f9;
+ color:var(--ink-2);letter-spacing:.01em}
 .badge.st{color:#fff}
-.st-Live{background:var(--green)} .st-Upcoming{background:#3b6ea5}
-.st-Closing{background:var(--amber)} .st-Closed{background:#8a9691} .st-Result{background:#6a4fb3}
-.meta{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;font-size:.82rem;margin-bottom:11px}
-.meta b{color:var(--muted);font-weight:600}
-.eligtag{display:inline-flex;align-items:center;gap:5px;font-size:.76rem;font-weight:700;padding:4px 10px;border-radius:8px;margin-bottom:9px}
-.eligtag.yes{background:#0b7a4b16;color:var(--green-d)}
-.eligtag.no{background:#c0392b12;color:var(--red)}
-.reasons{font-size:.76rem;color:var(--red);margin:-4px 0 10px;padding-left:2px}
+.st-Live{background:var(--brand)} .st-Upcoming{background:var(--blue)}
+.st-Closing{background:var(--amber)} .st-Closed{background:#94a3b8} .st-Result{background:var(--violet)}
+.card h3{font-size:1.09rem;margin-bottom:4px;font-weight:700;letter-spacing:-.015em;line-height:1.35}
+.org{font-size:.84rem;color:var(--muted);margin-bottom:12px;font-weight:500}
+.eligtag{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:700;
+ padding:5px 11px;border-radius:9px;margin-bottom:11px}
+.eligtag.yes{background:#ccfbf1;color:#115e59}
+.eligtag.no{background:#fee2e2;color:#991b1b}
+.reasons{font-size:.75rem;color:var(--red);margin:-5px 0 11px;font-weight:500}
+.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:11px 16px;
+ font-size:.82rem;margin-bottom:12px;padding:12px;background:#f8fafc;border-radius:11px}
+.meta div{display:flex;flex-direction:column;gap:1px}
+.meta b{color:var(--muted);font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.03em}
+.meta span{font-weight:600;color:var(--ink)}
+.note{font-size:.8rem;color:var(--ink-2);margin-bottom:12px;line-height:1.5}
 .actions{display:flex;gap:8px;flex-wrap:wrap}
-.actions a,.actions button{font-size:.8rem;font-weight:600;padding:7px 13px;border-radius:9px;text-decoration:none;border:1px solid var(--line);cursor:pointer;background:#fff;color:var(--ink)}
-.actions a.primary{background:var(--green);color:#fff;border-color:var(--green)}
-.disclaimer{font-size:.72rem;color:var(--muted);margin-top:9px;padding-top:9px;border-top:1px dashed var(--line)}
-.empty{text-align:center;padding:40px;color:var(--muted)}
-footer{max-width:1180px;margin:10px auto 30px;padding:16px;font-size:.75rem;color:var(--muted);text-align:center}
-.pill{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:20px;padding:4px 11px;font-size:.75rem;margin:2px}
-#authbox input{margin-bottom:7px}
-.authnote{font-size:.74rem;color:var(--muted);line-height:1.45;margin-bottom:7px}
-.authed b{font-size:.85rem}
-.authed{font-size:.85rem}
-#toast{position:fixed;left:50%;bottom:-90px;transform:translateX(-50%);background:var(--ink);color:#fff;
- padding:12px 20px;border-radius:11px;font-size:.85rem;font-weight:500;max-width:90vw;z-index:99;
- transition:bottom .35s;box-shadow:0 6px 22px #0003}
-#toast.show{bottom:22px}
-.card.closed{opacity:.62}
-.card.closed h3{text-decoration:line-through;text-decoration-color:#b9c4be}
+.actions a,.actions button{font-size:.79rem;font-weight:700;padding:9px 15px;border-radius:10px;
+ text-decoration:none;border:1.5px solid var(--line);cursor:pointer;background:#fff;color:var(--ink-2);
+ font-family:inherit;transition:.18s;display:inline-flex;align-items:center;gap:5px}
+.actions a:hover,.actions button:hover{border-color:#cbd5e1;background:#f8fafc}
+.actions a.primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+.actions a.primary:hover{background:var(--brand-d);box-shadow:0 4px 12px #0f766e40}
+.src{font-size:.7rem;color:var(--muted);margin-top:11px;padding-top:11px;border-top:1px solid var(--line)}
+.empty{text-align:center;padding:56px 20px;color:var(--muted);background:#fff;
+ border:1px dashed var(--line);border-radius:var(--r)}
+.empty h3{font-size:1rem;color:var(--ink);margin-bottom:6px}
+.tipbox{background:linear-gradient(160deg,#f0fdfa,#fff);border:1.5px dashed #99f6e4;border-radius:var(--r);
+ padding:22px;text-align:center;color:var(--ink-2);margin-top:2px}
+.tipbox h3{font-size:.95rem;color:var(--brand-d);margin-bottom:5px;font-weight:700}
+.tipbox p{font-size:.83rem;color:var(--muted)}
+
+/* ---------- misc ---------- */
+.authnote{font-size:.75rem;color:var(--muted);line-height:1.5;margin-bottom:9px}
+#authbox input{margin-bottom:8px}
+footer{max-width:1200px;margin:14px auto 36px;padding:18px;font-size:.79rem;color:var(--ink-2);
+ text-align:center;line-height:1.6}
+.disc{background:#fffbeb;border:1px solid #fde68a;color:#78350f;padding:12px 16px;
+ border-radius:12px;margin-bottom:12px;font-weight:500}
+#toast{position:fixed;left:50%;bottom:-100px;transform:translateX(-50%);background:var(--ink);
+ color:#fff;padding:13px 22px;border-radius:12px;font-size:.85rem;font-weight:600;max-width:90vw;
+ z-index:99;transition:bottom .35s cubic-bezier(.2,.9,.3,1.2);box-shadow:var(--sh-lg)}
+#toast.show{bottom:24px}
+@media(max-width:640px){.meta{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){
+ .bt{font-size:1.12rem}.tag{display:none}.hwrap{padding:13px 15px}
+ .card{padding:15px}.count{width:100%;margin-left:0}
+}
 </style>
 </head>
 <body>
 <header>
   <div class="hwrap">
     <div class="brand"><span class="logo">JS</span>
-      <div><div data-t="brand">Assam Job Setu</div>
+      <div><div class="bt" data-t="brand">Assam Job Setu</div>
       <div class="tag" data-t="tag">Tell us your profile once — see only the government jobs you actually qualify for.</div></div>
     </div>
-    <div class="lang">
-      <button id="en" class="on" onclick="setLang('en')">English</button>
-      <button id="as" onclick="setLang('as')">অসমীয়া</button>
+    <div class="hright">
+      <div class="lang">
+        <button id="en" class="on" type="button">English</button>
+        <button id="as" type="button">অসমীয়া</button>
+      </div>
+      <div class="refreshed"><span class="dot"></span><span data-t="refreshed">Updated</span> <span id="refts">…</span></div>
     </div>
-    <div class="refreshed"><span data-t="refreshed">Last refreshed</span>: <span id="refts"></span></div>
   </div>
+  <div class="stats"><div class="swrap">
+    <span><b id="s_open">0</b> <span data-t="s_open">open now</span></span>
+    <span><b id="s_soon">0</b> <span data-t="s_soon">closing in 3 days</span></span>
+    <span><b id="s_vac">0</b> <span data-t="s_vac">total vacancies</span></span>
+    <span><b id="s_src">0</b> <span data-t="s_src">sources tracked</span></span>
+  </div></div>
 </header>
 
 <div class="layout">
   <aside>
-    <div class="panel ehead">
+    <div class="panel hero-panel">
       <h2>🎯 <span data-t="amieligible">Am I Eligible?</span></h2>
       <div class="field"><label data-t="age">Your age</label><input type="number" id="p_age" min="14" max="60" placeholder="e.g. 26"></div>
       <div class="field"><label data-t="edu">Highest education</label>
-        <select id="p_edu"><option value="">—</option>
+        <select id="p_edu"><option value="">Select…</option>
           <option value="10th">10th pass</option><option value="12th">12th pass</option>
           <option value="Diploma">Diploma</option><option value="Graduate">Graduate</option>
           <option value="Postgraduate">Postgraduate</option></select></div>
@@ -105,19 +194,19 @@ footer{max-width:1180px;margin:10px auto 30px;padding:16px;font-size:.75rem;colo
           <option value="EWS">EWS</option><option value="PwD">PwD</option></select></div>
       <div class="field"><label data-t="domi">Assam domicile?</label>
         <select id="p_domi"><option value="yes">Yes</option><option value="no">No</option></select></div>
-      <button class="btn" onclick="applyProfile()" data-t="findjobs">Find my jobs</button>
-      <button class="btn sec" onclick="clearProfile()" data-t="clearp">Clear</button>
+      <button class="btn" id="btn_find" type="button" data-t="findjobs">Find my jobs</button>
+      <button class="btn sec" id="btn_clear" type="button" data-t="clearp">Clear</button>
     </div>
 
-    <div class="panel filters" style="margin-top:14px">
-      <h2>🔎 <span data-t="filters">Filters</span></h2>
+    <div class="panel">
+      <h2>⚙️ <span data-t="filters">Filters</span></h2>
       <div class="field"><label data-t="jobtype">Job type</label>
         <select id="f_type"><option value="">All</option><option>State Govt</option><option>PSU</option><option>Central Govt</option></select></div>
       <div class="field"><label data-t="sector">Sector</label>
         <select id="f_sector"><option value="">All</option>
-          <option>Education & Teaching</option><option>Police & Defence</option>
-          <option>Engineering & Technical</option><option>Clerical & Administrative</option>
-          <option>Health & Medical</option><option>Banking & Finance</option></select></div>
+          <option>Education &amp; Teaching</option><option>Police &amp; Defence</option>
+          <option>Engineering &amp; Technical</option><option>Clerical &amp; Administrative</option>
+          <option>Health &amp; Medical</option><option>Banking &amp; Finance</option></select></div>
       <div class="field"><label data-t="edulvl">Education level</label>
         <select id="f_edu"><option value="">All</option><option>10th</option><option>12th</option>
           <option>Diploma</option><option>Graduate</option><option>Postgraduate</option></select></div>
@@ -127,9 +216,9 @@ footer{max-width:1180px;margin:10px auto 30px;padding:16px;font-size:.75rem;colo
       <div class="field"><label data-t="statusf">Status</label>
         <select id="f_status"><option value="">All</option><option>Live</option><option>Upcoming</option>
           <option>Closing Soon</option><option>Closed</option></select></div>
-      <button class="btn sec" onclick="render()" data-t="apply">Apply filters</button>
     </div>
-    <div class="panel" style="margin-top:14px">
+
+    <div class="panel">
       <h2>👤 <span data-t="account">Account</span></h2>
       <div id="authbox"></div>
     </div>
@@ -137,175 +226,204 @@ footer{max-width:1180px;margin:10px auto 30px;padding:16px;font-size:.75rem;colo
 
   <main>
     <div class="toolbar">
-      <div class="search"><input type="text" id="q" placeholder="Search post, department…" oninput="render()" data-tp="search"></div>
-      <div class="toggle" onclick="toggleEligOnly()"><input type="checkbox" id="eligonly"> <span data-t="onlyelig">Only eligible</span></div>
-      <div class="toggle" onclick="event.stopPropagation();document.getElementById('showclosed').checked=!document.getElementById('showclosed').checked;render()"><input type="checkbox" id="showclosed"> <span data-t="showclosed">Show closed</span></div>
-      <div class="count"><span id="count">0</span> <span data-t="jobs">jobs</span></div>
+      <div class="search"><input type="text" id="q" placeholder="Search post, department…" data-tp="search"></div>
+      <label class="chip" id="c_elig"><input type="checkbox" id="eligonly"> <span data-t="onlyelig">Only eligible</span></label>
+      <label class="chip" id="c_closed"><input type="checkbox" id="showclosed"> <span data-t="showclosed">Show closed</span></label>
+      <div class="count"><b id="count">0</b> <span id="jobword">jobs</span></div>
     </div>
     <div id="list"></div>
   </main>
 </div>
 
 <footer>
-  <p data-t="disc1">⚠️ Assam Job Setu is an aggregator. Always verify every detail on the official notification PDF before applying. We never collect your application — we deep-link to the official government portal.</p>
-  <p style="margin-top:6px">Sources hand-verified & LLM-assisted · Assam teaching + APSC + PSU + central jobs</p>
+  <div class="disc" data-t="disc1">⚠️ Assam Job Setu is an aggregator. Always verify every detail on the official notification PDF before applying. We never collect your application — we deep-link to the official government portal.</div>
+  <p>Sources hand-verified &amp; LLM-assisted · Assam teaching + APSC + PSU + central jobs</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const T={
- en:{brand:"Assam Job Setu",tag:"Tell us your profile once — see only the government jobs you actually qualify for.",refreshed:"Last refreshed",amieligible:"Am I Eligible?",age:"Your age",edu:"Highest education",cat:"Category",domi:"Assam domicile?",findjobs:"Find my jobs",clearp:"Clear",filters:"Filters",jobtype:"Job type",sector:"Sector",edulvl:"Education level",deadline:"Deadline",statusf:"Status",apply:"Apply filters",onlyelig:"Only eligible",jobs:"jobs",search:"Search post, department…",disc1:"⚠️ Assam Job Setu is an aggregator. Always verify every detail on the official notification PDF before applying. We never collect your application — we deep-link to the official government portal.",applybtn:"Apply on official portal",pdf:"Official PDF",elig:"You're eligible",notelig:"Not eligible",save:"Save",showclosed:"Show closed"},
- as:{brand:"অসম জব সেতু",tag:"এবাৰ আপোনাৰ প্ৰʼফাইল দিয়ক — কেৱল আপুনি যোগ্য চৰকাৰী চাকৰিবোৰ চাওক।",refreshed:"শেষ আপডেট",amieligible:"মই যোগ্য নেকি?",age:"আপোনাৰ বয়স",edu:"সৰ্বোচ্চ শিক্ষা",cat:"শ্ৰেণী",domi:"অসমৰ স্থায়ী বাসিন্দা?",findjobs:"চাকৰি বিচাৰক",clearp:"পৰিষ্কাৰ",filters:"ফিল্টাৰ",jobtype:"চাকৰিৰ ধৰণ",sector:"খণ্ড",edulvl:"শিক্ষাৰ স্তৰ",deadline:"অন্তিম তাৰিখ",statusf:"অৱস্থা",apply:"ফিল্টাৰ প্ৰয়োগ",onlyelig:"কেৱল যোগ্য",jobs:"চাকৰি",search:"পদ, বিভাগ বিচাৰক…",disc1:"⚠️ অসম জব সেতু এটা সংগ্ৰাহক। আবেদনৰ আগতে চৰকাৰী বিজ্ঞপ্তি PDF চাই লওক।",applybtn:"চৰকাৰী পʼৰ্টেলত আবেদন",pdf:"চৰকাৰী PDF",elig:"আপুনি যোগ্য",notelig:"যোগ্য নহয়",save:"সাচি থওক",account:"একাউণ্ট",showclosed:"বন্ধ হোৱা দেখুৱাওক"}
+ en:{brand:"Assam Job Setu",tag:"Tell us your profile once — see only the government jobs you actually qualify for.",refreshed:"Updated",amieligible:"Am I Eligible?",age:"Your age",edu:"Highest education",cat:"Category",domi:"Assam domicile?",findjobs:"Find my jobs",clearp:"Clear",filters:"Filters",jobtype:"Job type",sector:"Sector",edulvl:"Education level",deadline:"Deadline",statusf:"Status",onlyelig:"Only eligible",showclosed:"Show closed",jobs:"jobs",search:"Search post, department…",disc1:"⚠️ Assam Job Setu is an aggregator. Always verify every detail on the official notification PDF before applying. We never collect your application — we deep-link to the official government portal.",applybtn:"Apply on official portal",pdf:"Official PDF",elig:"You're eligible",notelig:"Not eligible",save:"Save",saved:"Saved",account:"Account",s_open:"open now",s_soon:"closing in 3 days",s_vac:"total vacancies",s_src:"sources tracked",nores:"No matching jobs",nores2:"Try clearing a filter or ticking “Show closed”.",vac:"Vacancies",agel:"Age",pay:"Pay",domil:"Domicile",applyby:"Apply by",edul:"Education",more:"Looking for more?",more2:"Tick “Show closed” to see recently closed jobs, or clear a filter.",more3:"That’s every job currently open. Tick “Show closed” to see recently closed ones."},
+ as:{brand:"অসম জব সেতু",tag:"এবাৰ আপোনাৰ প্ৰʼফাইল দিয়ক — কেৱল আপুনি যোগ্য চৰকাৰী চাকৰিবোৰ চাওক।",refreshed:"আপডেট",amieligible:"মই যোগ্য নেকি?",age:"আপোনাৰ বয়স",edu:"সৰ্বোচ্চ শিক্ষা",cat:"শ্ৰেণী",domi:"অসমৰ স্থায়ী বাসিন্দা?",findjobs:"চাকৰি বিচাৰক",clearp:"পৰিষ্কাৰ",filters:"ফিল্টাৰ",jobtype:"চাকৰিৰ ধৰণ",sector:"খণ্ড",edulvl:"শিক্ষাৰ স্তৰ",deadline:"অন্তিম তাৰিখ",statusf:"অৱস্থা",onlyelig:"কেৱল যোগ্য",showclosed:"বন্ধ হোৱা দেখুৱাওক",jobs:"চাকৰি",search:"পদ, বিভাগ বিচাৰক…",disc1:"⚠️ অসম জব সেতু এটা সংগ্ৰাহক। আবেদনৰ আগতে চৰকাৰী বিজ্ঞপ্তি PDF চাই লওক।",applybtn:"চৰকাৰী পʼৰ্টেলত আবেদন",pdf:"চৰকাৰী PDF",elig:"আপুনি যোগ্য",notelig:"যোগ্য নহয়",save:"সাচি থওক",saved:"সাচি থোৱা",account:"একাউণ্ট",s_open:"এতিয়া খোলা",s_soon:"৩ দিনত বন্ধ",s_vac:"মুঠ পদ",s_src:"উৎস",nores:"কোনো চাকৰি পোৱা নগʼল",nores2:"ফিল্টাৰ পৰিষ্কাৰ কৰি চাওক।",vac:"পদ",agel:"বয়স",pay:"দৰমহা",domil:"বাসিন্দা",applyby:"অন্তিম তাৰিখ",edul:"শিক্ষা",more:"আৰু বিচাৰিছে নেকি?",more2:"“বন্ধ হোৱা দেখুৱাওক” টিপক বা ফিল্টাৰ পৰিষ্কাৰ কৰক।",more3:"এতিয়া খোলা থকা সকলো চাকৰি ইয়াতে আছে।"}
 };
-let LANG='en', JOBS=[], PROFILE=null, saved=JSON.parse(localStorage.getItem('saved')||'[]');
+let LANG='en', JOBS=[], PROFILE=null, saved=[];
+try{ saved=JSON.parse(localStorage.getItem('saved')||'[]'); }catch(e){ saved=[]; }
 
+/* ===== SECURITY: escape all untrusted data before it touches the DOM ===== */
+const esc = s => String(s==null?'':s).replace(/[&<>"'`=\/]/g, c => ({
+ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;','=':'&#61;','/':'&#47;'}[c]));
+/* Only http/https links are allowed — blocks javascript:/data: URI injection */
+const safeUrl = u => {
+  try{ const p=new URL(String(u), location.href);
+       return (p.protocol==='http:'||p.protocol==='https:') ? p.href : '#'; }
+  catch(e){ return '#'; }
+};
+
+const $=id=>document.getElementById(id);
 function setLang(l){LANG=l;document.body.classList.toggle('as',l==='as');
- document.getElementById('en').classList.toggle('on',l==='en');
- document.getElementById('as').classList.toggle('on',l==='as');
+ $('en').classList.toggle('on',l==='en'); $('as').classList.toggle('on',l==='as');
  document.querySelectorAll('[data-t]').forEach(e=>{const k=e.dataset.t;if(T[l][k])e.textContent=T[l][k]});
  document.querySelectorAll('[data-tp]').forEach(e=>{const k=e.dataset.tp;if(T[l][k])e.placeholder=T[l][k]});
  render();}
 
 function daysLeft(d){return Math.ceil((new Date(d)-new Date())/(864e5));}
-function stKey(s){return s.replace(/ .*/,'').replace('Result','Result')}
+function stKey(s){return s.replace(/ .*/,'')}
+/* human dates: 2026-08-23 -> 23 Aug 2026 */
+function fmtDate(d){ if(!d) return '—';
+  const t=new Date(d); if(isNaN(t)) return String(d);
+  return t.toLocaleDateString(LANG==='as'?'as-IN':'en-IN',{day:'numeric',month:'short',year:'numeric'});}
 
-// ---- LIVE STATUS: computed from dates on every page load ----
-// This is why expired jobs disappear WITHOUT any cron job running.
-// Even if the aggregator breaks for a week, the site never shows a dead deadline as "Live".
+/* ---- LIVE STATUS computed from dates on every load (no cron needed) ---- */
 function liveStatus(j){
-  if(j.status==='Result Declared') return 'Result Declared';   // manual override wins
+  if(j.status==='Result Declared') return 'Result Declared';
   const today=new Date(); today.setHours(0,0,0,0);
-  const start=j.start_date?new Date(j.start_date):null;
-  const end=j.last_date?new Date(j.last_date):null;
+  const start=j.start_date?new Date(j.start_date):null, end=j.last_date?new Date(j.last_date):null;
   if(end && today>end) return 'Closed';
   if(start && today<start) return 'Upcoming';
-  const dl=daysLeft(j.last_date);
-  if(dl<=3) return 'Closing Soon';
+  if(end && daysLeft(j.last_date)<=3) return 'Closing Soon';
   return 'Live';
 }
 
-// ---- ELIGIBILITY ENGINE (the moat) ----
+/* ---- ELIGIBILITY ENGINE (the moat) ---- */
 function checkElig(j){
  if(!PROFILE) return {ok:null,reasons:[]};
- const r=[]; const p=PROFILE;
- // age with category relaxation
+ const r=[], p=PROFILE;
  const relax=(j.age_relaxation&&j.age_relaxation[p.cat])||0;
- const maxAge=j.age_max+relax;
- if(p.age){ if(p.age<j.age_min) r.push(`Min age ${j.age_min}`);
-   else if(p.age>maxAge) r.push(`Max age ${maxAge} (incl. +${relax} relax)`); }
- // education
+ const maxAge=(j.age_max||99)+relax;
+ if(p.age){ if(p.age<(j.age_min||0)) r.push(`Min age ${j.age_min}`);
+   else if(p.age>maxAge) r.push(`Max age ${maxAge}${relax?` (incl. +${relax})`:''}`); }
  const order=["10th","12th","Diploma","Graduate","Postgraduate"];
- if(p.edu){ const need=Math.min(...j.education_level.map(e=>order.indexOf(e)));
+ if(p.edu && Array.isArray(j.education_level) && j.education_level.length){
+   const need=Math.min(...j.education_level.map(e=>order.indexOf(e)).filter(i=>i>=0));
    if(order.indexOf(p.edu)<need) r.push(`Needs ${order[need]}`); }
- // domicile
  if(j.domicile==='Assam only' && p.domi==='no') r.push('Assam domicile required');
  return {ok:r.length===0, reasons:r};
 }
 
 function applyProfile(){
- const age=+document.getElementById('p_age').value||null;
- PROFILE={age:age,
-  edu:document.getElementById('p_edu').value,
-  cat:document.getElementById('p_cat').value,
-  domi:document.getElementById('p_domi').value};
- document.getElementById('eligonly').checked=true;
- // persist (cloud if signed in, else this device). Store birth_year not DOB (privacy).
+ const age=+$('p_age').value||null;
+ PROFILE={age,edu:$('p_edu').value,cat:$('p_cat').value,domi:$('p_domi').value};
+ $('eligonly').checked=true; syncChips();
  if(typeof saveProfile==='function') saveProfile({
-   birth_year: age? (new Date().getFullYear()-age) : null,
-   edu:PROFILE.edu, cat:PROFILE.cat, domi:PROFILE.domi});
+   birth_year: age?(new Date().getFullYear()-age):null,
+   edu:PROFILE.edu,cat:PROFILE.cat,domi:PROFILE.domi});
  render();
 }
-// called by auth.js when a stored profile is loaded
 function applyStoredProfile(p){
  if(!p) return;
- const age = p.birth_year ? (new Date().getFullYear()-p.birth_year) : null;
- if(age) document.getElementById('p_age').value=age;
- if(p.edu) document.getElementById('p_edu').value=p.edu;
- if(p.cat||p.category) document.getElementById('p_cat').value=p.cat||p.category;
- if(p.domi) document.getElementById('p_domi').value=p.domi;
- if(age||p.edu){ PROFILE={age:age,edu:p.edu,cat:p.cat||p.category,domi:p.domi};
-   document.getElementById('eligonly').checked=true; render(); }
+ const age=p.birth_year?(new Date().getFullYear()-p.birth_year):null;
+ if(age) $('p_age').value=age;
+ if(p.edu) $('p_edu').value=p.edu;
+ if(p.cat||p.category) $('p_cat').value=p.cat||p.category;
+ if(p.domi) $('p_domi').value=p.domi;
+ if(age||p.edu){PROFILE={age,edu:p.edu,cat:p.cat||p.category,domi:p.domi};
+   $('eligonly').checked=true;syncChips();render();}
 }
-function clearProfile(){PROFILE=null;document.getElementById('p_age').value='';
- document.getElementById('p_edu').value='';document.getElementById('eligonly').checked=false;render();}
-function toggleEligOnly(){document.getElementById('eligonly').checked=!document.getElementById('eligonly').checked;render();}
+function clearProfile(){PROFILE=null;$('p_age').value='';$('p_edu').value='';
+ $('eligonly').checked=false;syncChips();
+ try{localStorage.removeItem('profile')}catch(e){} render();}
+function syncChips(){$('c_elig').classList.toggle('on',$('eligonly').checked);
+ $('c_closed').classList.toggle('on',$('showclosed').checked);}
 
 function passFilters(j){
- const q=document.getElementById('q').value.toLowerCase();
- const F=id=>document.getElementById(id).value;
- if(q && !((j.title_en+j.org_en+j.sector).toLowerCase().includes(q))) return false;
+ const q=$('q').value.toLowerCase().trim();
+ const F=id=>$(id).value;
+ if(q && !((j.title_en+' '+j.org_en+' '+j.sector).toLowerCase().includes(q))) return false;
  if(F('f_type')&&j.org_type!==F('f_type')) return false;
  if(F('f_sector')&&j.sector!==F('f_sector')) return false;
- if(F('f_edu')&&!j.education_level.includes(F('f_edu'))) return false;
+ if(F('f_edu')&&!(j.education_level||[]).includes(F('f_edu'))) return false;
  const st=liveStatus(j);
- // Expired jobs are hidden by default — user must opt in to see them.
- const showClosed=document.getElementById('showclosed').checked;
- if(!showClosed && st==='Closed' && !F('f_status')) return false;
+ if(!$('showclosed').checked && st==='Closed' && !F('f_status')) return false;
  if(F('f_status')&&st!==F('f_status')) return false;
  const dd=F('f_dead'); if(dd){const dl=daysLeft(j.last_date); if(dl<0||dl>+dd) return false;}
  return true;
 }
 
 function render(){
- const onlyE=document.getElementById('eligonly').checked;
+ const L=T[LANG], onlyE=$('eligonly').checked;
  let out=JOBS.filter(passFilters).map(j=>({j,e:checkElig(j)}));
  if(onlyE&&PROFILE) out=out.filter(x=>x.e.ok!==false);
- // eligible first, then live, then by deadline
- out.sort((a,b)=>(b.e.ok===true)-(a.e.ok===true) || new Date(a.j.last_date)-new Date(b.j.last_date));
- document.getElementById('count').textContent=out.length;
- const L=T[LANG];
- const list=document.getElementById('list');
- if(!out.length){list.innerHTML=`<div class="empty">No matching jobs. Try relaxing filters.</div>`;return;}
+ out.sort((a,b)=>(b.e.ok===true)-(a.e.ok===true)||new Date(a.j.last_date)-new Date(b.j.last_date));
+ $('count').textContent=out.length;
+ $('jobword').textContent = out.length===1 ? (LANG==='as'?'চাকৰি':'job') : T[LANG].jobs;
+ const list=$('list');
+ if(!out.length){list.innerHTML=`<div class="empty"><h3>${esc(L.nores)}</h3><p>${esc(L.nores2)}</p></div>`;return;}
  list.innerHTML=out.map(({j,e})=>{
-  const title=LANG==='as'?j.title_as:j.title_en, org=LANG==='as'?j.org_as:j.org_en;
-  const note=LANG==='as'?j.note_as:j.note_en;
-  const dl=daysLeft(j.last_date);
-  const st=liveStatus(j);
-  const stCls='st-'+stKey(st);
+  const title=esc(LANG==='as'&&j.title_as?j.title_as:j.title_en);
+  const org=esc(LANG==='as'&&j.org_as?j.org_as:j.org_en);
+  const note=esc(LANG==='as'&&j.note_as?j.note_as:j.note_en);
+  const dl=daysLeft(j.last_date), st=liveStatus(j);
   let eligHtml='';
-  if(PROFILE){ eligHtml = e.ok
-    ? `<div class="eligtag yes">✅ ${L.elig}</div>`
-    : `<div class="eligtag no">✕ ${L.notelig}</div><div class="reasons">${e.reasons.join(' · ')}</div>`; }
-  return `<div class="card ${e.ok?'elig':''} ${st==='Closed'?'closed':''}">
+  if(PROFILE) eligHtml = e.ok
+    ? `<div class="eligtag yes">✅ ${esc(L.elig)}</div>`
+    : `<div class="eligtag no">✕ ${esc(L.notelig)}</div><div class="reasons">${esc(e.reasons.join(' · '))}</div>`;
+  const isSaved=saved.includes(j.id);
+  return `<article class="card ${e.ok?'elig':''} ${st==='Closed'?'closed':''}">
    <div class="badges">
-     <span class="badge st ${stCls}">${st}</span>
-     <span class="badge">${j.org_type}</span>
-     <span class="badge">${j.sector}</span>
+     <span class="badge st st-${esc(stKey(st))}">${esc(st)}</span>
+     <span class="badge">${esc(j.org_type)}</span>
+     <span class="badge">${esc(j.sector)}</span>
      ${dl>=0&&dl<=3?`<span class="badge st st-Closing">⏰ ${dl}d left</span>`:''}
    </div>
    <h3>${title}</h3><div class="org">${org}</div>
    ${eligHtml}
    <div class="meta">
-     <div><b>Vacancies:</b> ${j.total_vacancies}</div>
-     <div><b>Age:</b> ${j.age_min}–${j.age_max}</div>
-     <div><b>Pay:</b> ${j.pay_scale}</div>
-     <div><b>Domicile:</b> ${j.domicile}</div>
-     <div><b>Apply by:</b> ${j.last_date}</div>
-     <div><b>Education:</b> ${j.education_level.join(', ')}</div>
+     <div><b>${esc(L.vac)}</b><span>${esc(j.total_vacancies)}</span></div>
+     <div><b>${esc(L.agel)}</b><span>${esc(j.age_min)}–${esc(j.age_max)}</span></div>
+     <div><b>${esc(L.pay)}</b><span>${esc(j.pay_scale)}</span></div>
+     <div><b>${esc(L.domil)}</b><span>${esc(j.domicile)}</span></div>
+     <div><b>${esc(L.applyby)}</b><span>${esc(fmtDate(j.last_date))}</span></div>
+     <div><b>${esc(L.edul)}</b><span>${esc((j.education_level||[]).join(', '))}</span></div>
    </div>
-   <div style="font-size:.8rem;color:var(--muted);margin-bottom:9px">${note||''}</div>
+   ${note?`<div class="note">${note}</div>`:''}
    <div class="actions">
-     <a class="primary" href="${j.apply_link}" target="_blank" rel="noopener">${L.applybtn} ↗</a>
-     <a href="${j.official_pdf}" target="_blank" rel="noopener">📄 ${L.pdf}</a>
-     <button onclick="save('${j.id}')">${saved.includes(j.id)?'★':'☆'} ${L.save}</button>
+     <a class="primary" href="${esc(safeUrl(j.apply_link))}" target="_blank" rel="noopener noreferrer nofollow">${esc(L.applybtn)} ↗</a>
+     <a href="${esc(safeUrl(j.official_pdf))}" target="_blank" rel="noopener noreferrer nofollow">📄 ${esc(L.pdf)}</a>
+     <button type="button" data-save="${esc(j.id)}">${isSaved?'★':'☆'} ${esc(isSaved?L.saved:L.save)}</button>
    </div>
-   <div class="disclaimer">Source: ${j.source_url.replace(/https?:\/\//,'').split('/')[0]} · Verified ${j.last_verified}</div>
-  </div>`;}).join('');
+   <div class="src">${esc((j.source_url||'').replace(/^https?:\/\//,'').split('/')[0])} · ${esc(fmtDate(j.last_verified))}</div>
+  </article>`;}).join('');
+ // sparse-results hint: stops the column looking broken when few jobs match
+ if(out.length<3 && JOBS.length>out.length){
+   const anyFilter=['f_type','f_sector','f_edu','f_dead','f_status'].some(id=>$(id).value)||$('q').value.trim()||(PROFILE&&$('eligonly').checked);
+   list.innerHTML+=`<div class="tipbox"><h3>${esc(L.more)}</h3><p>${esc(anyFilter?L.more2:L.more3)}</p></div>`;
+ }
 }
-function save(id){saved.includes(id)?saved=saved.filter(x=>x!==id):saved.push(id);
- if(typeof syncSaved==='function') syncSaved(saved); else localStorage.setItem('saved',JSON.stringify(saved));
- render();}
 
-fetch('data/jobs.json').then(r=>r.json()).then(d=>{JOBS=d;
- // show the REAL last-refresh time from the aggregator, not just page-load time
- fetch('data/refresh_status.json').then(r=>r.json()).then(s=>{
-   const t=new Date(s.last_refresh);
-   document.getElementById('refts').textContent=
-     t.toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'})+
-     (s.open_jobs!=null?` · ${s.open_jobs} open`:'');
- }).catch(()=>{document.getElementById('refts').textContent=
-     new Date().toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'});});
- render();}).catch(e=>{document.getElementById('list').innerHTML='<div class="empty">Could not load jobs.json — run via a local server (see README).</div>';});
+function save(id){
+ saved.includes(id)?saved=saved.filter(x=>x!==id):saved.push(id);
+ if(typeof syncSaved==='function') syncSaved(saved);
+ else { try{localStorage.setItem('saved',JSON.stringify(saved))}catch(e){} }
+ render();
+}
+
+/* ---- events (CSP-safe: no inline handlers) ---- */
+$('en').addEventListener('click',()=>setLang('en'));
+$('as').addEventListener('click',()=>setLang('as'));
+$('btn_find').addEventListener('click',applyProfile);
+$('btn_clear').addEventListener('click',clearProfile);
+$('q').addEventListener('input',render);
+['eligonly','showclosed'].forEach(id=>$(id).addEventListener('change',()=>{syncChips();render()}));
+['f_type','f_sector','f_edu','f_dead','f_status'].forEach(id=>$(id).addEventListener('change',render));
+$('list').addEventListener('click',ev=>{
+ const b=ev.target.closest('[data-save]'); if(b) save(b.getAttribute('data-save'));
+});
+
+/* ---- load ---- */
+fetch('data/jobs.json').then(r=>r.json()).then(d=>{
+ JOBS=Array.isArray(d)?d:[];
+ const open=JOBS.filter(j=>['Live','Closing Soon'].includes(liveStatus(j)));
+ $('s_open').textContent=open.length;
+ $('s_soon').textContent=JOBS.filter(j=>liveStatus(j)==='Closing Soon').length;
+ $('s_vac').textContent=open.reduce((a,j)=>a+(+j.total_vacancies||0),0).toLocaleString('en-IN');
+ // fallback: count distinct organisations if refresh_status.json is unavailable
+ $('s_src').textContent=new Set(JOBS.map(j=>j.org_en)).size;
+ render();
+ return fetch('data/refresh_status.json').then(r=>r.json()).then(s=>{
+   if(s.last_refresh) $('refts').textContent=fmtDate(s.last_refresh);
+   const n=Object.keys(s.sources||{}).length; if(n) $('s_src').textContent=n;
+ }).catch(()=>{$('refts').textContent=fmtDate(new Date())});
+}).catch(()=>{$('list').innerHTML='<div class="empty"><h3>Could not load jobs</h3><p>Run via a local server — see README.</p></div>';});
 </script>
 <script src="auth.js"></script>
 </body>
