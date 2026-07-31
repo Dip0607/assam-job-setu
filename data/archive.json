@@ -131,5 +131,50 @@
     "note_en": "Physical standards & PET apply. 705 UB + 1429 AB posts.",
     "note_as": "শাৰীৰিক মান আৰু PET প্ৰযোজ্য।",
     "archived_on": "2026-07-25"
+  },
+  {
+    "id": "nf-railway-apprentice-2026",
+    "title_en": "Apprentice (NF Railway Zone)",
+    "title_as": "শিক্ষানবিশ (উত্তৰ-পূব সীমান্ত ৰেল)",
+    "org_en": "Northeast Frontier Railway (NFR)",
+    "org_as": "উত্তৰ-পূব সীমান্ত ৰেল",
+    "org_type": "Central Govt",
+    "sector": "Engineering & Technical",
+    "total_vacancies": 6777,
+    "education_level": [
+      "10th",
+      "12th",
+      "Diploma"
+    ],
+    "streams": [
+      "ITI",
+      "Any"
+    ],
+    "age_min": 15,
+    "age_max": 24,
+    "age_ref_date": "2026-01-01",
+    "age_relaxation": {
+      "OBC-MOBC": 3,
+      "SC": 5,
+      "ST(P)": 5,
+      "ST(H)": 5,
+      "PwD": 10
+    },
+    "pay_scale": "Stipend as per railway norms",
+    "districts": [
+      "Anywhere in Assam"
+    ],
+    "domicile": "Open to all",
+    "gender": "All",
+    "start_date": "2026-06-01",
+    "last_date": "2026-06-30",
+    "apply_link": "https://nfr.indianrailways.gov.in",
+    "official_pdf": "https://nfr.indianrailways.gov.in",
+    "source_url": "https://www.assamcareer.com/2021/07/n-f-railway-apprentice.html",
+    "status": "Closed",
+    "last_verified": "2026-07-31",
+    "note_en": "10th pass + ITI. Trade apprenticeship across NFR zone incl. Assam.",
+    "note_as": "দশম উত্তীৰ্ণ + ITI।",
+    "archived_on": "2026-07-31"
   }
 ]
