@@ -1,5 +1,5 @@
 {
-  "last_refresh": "2026-08-22T03:21:25",
+  "last_refresh": "2026-08-23T03:29:49",
   "total_jobs": 1,
   "open_jobs": 1,
   "archived": 4,
@@ -8,36 +8,36 @@
       "name": "APSC",
       "ok": false,
       "note": "URLError",
-      "consecutive_failures": 30,
-      "checked": "2026-08-22"
+      "consecutive_failures": 31,
+      "checked": "2026-08-23"
     },
     "dee": {
       "name": "DEE Assam",
       "ok": true,
       "note": "HTTP 200",
       "consecutive_failures": 0,
-      "checked": "2026-08-22"
+      "checked": "2026-08-23"
     },
     "apgcl": {
       "name": "APGCL/AEGCL",
       "ok": true,
       "note": "HTTP 200",
       "consecutive_failures": 0,
-      "checked": "2026-08-22"
+      "checked": "2026-08-23"
     },
     "slprb": {
       "name": "Assam Police",
       "ok": false,
       "note": "URLError",
-      "consecutive_failures": 30,
-      "checked": "2026-08-22"
+      "consecutive_failures": 31,
+      "checked": "2026-08-23"
     },
     "nfr": {
       "name": "NF Railway",
       "ok": false,
       "note": "URLError",
-      "consecutive_failures": 30,
-      "checked": "2026-08-22"
+      "consecutive_failures": 31,
+      "checked": "2026-08-23"
     }
   }
 }
